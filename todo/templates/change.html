@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактирование задачи</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 60px auto;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 3px;
+            border: 1px solid #dddddd;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #4caf50;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 3px;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <h1>Редактирование задачи</h1>
+    <form method="POST" action=''>
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="task_name">Название задачи:</label>
+            <input type="text" id="task_name" name="task_name" value="{{ task.task_name }}" required>
+        </div>
+        <div class="form-group">
+            <label for="task_description">Описание задачи:</label>
+            <textarea id="task_description" name="task_description" rows="4" required>{{ task.task_description }}</textarea>
+        </div>
+        <div class="form-group">
+            <label for="start_deadline">Дата начала:</label>
+            <input type="date" id="start_deadline" name="start_deadline" value="{{ task.start_deadline|date:'Y-m-d' }}" required>
+        </div>
+        <div class="form-group">
+            <label for="deadline">Крайний срок:</label>
+            <input type="date" id="deadline" name="deadline" value="{{ task.deadline|date:'Y-m-d' }}" required>
+        </div>
+        <div class="form-group">
+            <label for="priority">Сложность задачи:</label>
+            <select id="priority" name="priority" required>
+                <option value="low" {% if task.priority == 'low' %}selected{% endif %}>Малый</option>
+                <option value="medium" {% if task.priority == 'medium' %}selected{% endif %}>Средний</option>
+                <option value="high" {% if task.priority == 'high' %}selected{% endif %}>Высокий</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="status">Статус:</label>
+            <input type="checkbox" id="status" name="status" {% if task.status %}checked{% endif %}>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Сохранить" class="btn">
+        </div>
+    </form>
+</div>
+</body>
+</html>
